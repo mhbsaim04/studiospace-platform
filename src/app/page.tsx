@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { BadgeCheck, CalendarCheck, Camera, Clapperboard, Clock, Headset, Mic, Music, Palette, Search, ShieldCheck, Wrench } from "lucide-react";
+import { BadgeCheck, CalendarCheck, Camera, Clapperboard, Clock, Headset, Mic, Palette, Search, Shapes, ShieldCheck, Wrench } from "lucide-react";
 import { Container, SectionHeading } from "@/components/container";
 import { FeaturedStudios } from "@/components/featured-studios";
 import { HeroSlider } from "@/components/hero-slider";
 import { CATEGORY_CARDS } from "@/lib/constants";
 
-const ICONS = { camera: Camera, clapperboard: Clapperboard, mic: Mic, music: Music, palette: Palette };
+const ICONS = { camera: Camera, clapperboard: Clapperboard, mic: Mic, shapes: Shapes, palette: Palette };
 
 const STEPS = [
   { icon: Search, title: "Discover spaces", text: "Filter by category, price and city to shortlist rooms that fit your shoot." },

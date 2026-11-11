@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
 import { XIcon } from "@/components/icons";
-import { CATEGORIES } from "@/lib/constants";
+import { categoryPlural, CATEGORIES } from "@/lib/constants";
 
 export function Footer() {
   const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ export function Footer() {
     <footer className="mt-24 border-t bg-card">
       <Container className="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-4">
-          <Logo />
+          <Logo variant="footer" />
           <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
             Our mission is to put every creator within an hour of the right room, from cyc walls to vocal booths, with transparent prices and instant booking.
           </p>
@@ -47,7 +47,7 @@ export function Footer() {
           <h3 className="mb-4 text-base font-bold">Popular categories</h3>
           <ul className="space-y-2.5 text-sm text-muted-foreground">
             {CATEGORIES.map((c) => (
-              <li key={c}><Link href={`/studios?category=${encodeURIComponent(c)}`} className="hover:text-foreground">{c}s</Link></li>
+              <li key={c}><Link href={`/studios?category=${encodeURIComponent(c)}`} className="hover:text-foreground">{categoryPlural(c)}</Link></li>
             ))}
           </ul>
         </div>

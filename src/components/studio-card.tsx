@@ -14,7 +14,7 @@ export function StudioCard({ studio }: { studio: Studio }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border bg-card shadow-xs transition-shadow hover:shadow-md">
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative `aspect-4/3` overflow-hidden">
         <SafeImage src={studio.image} alt={studio.title} className="size-full transition-transform duration-500 group-hover:scale-105" />
         <Badge variant="outline" className="absolute left-3 top-3">{studio.category}</Badge>
         <button
@@ -28,7 +28,7 @@ export function StudioCard({ studio }: { studio: Studio }) {
       </div>
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="line-clamp-2 min-h-[3.25rem] text-lg font-bold leading-snug">{studio.title}</h3>
+          <h3 className="line-clamp-2 `min-h-13` text-lg font-bold leading-snug">{studio.title}</h3>
           <span className="flex shrink-0 items-center gap-1 rounded-md bg-tungsten/15 px-2 py-1 text-xs font-bold">
             <Star className="size-3.5 fill-tungsten text-tungsten" />
             {studio.reviewCount ? studio.rating.toFixed(1) : "New"}

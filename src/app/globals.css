@@ -7,7 +7,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Cyc-wall white + slate ink, on-air tally red, tungsten amber for ratings */
+/* StudioSpace magenta brand, slate ink, tungsten amber for ratings */
 :root {
   --background: #f4f6f8;
   --foreground: #12161d;
@@ -15,18 +15,18 @@
   --card-foreground: #12161d;
   --popover: #ffffff;
   --popover-foreground: #12161d;
-  --primary: #d92d20;
+  --primary: #c026d3;
   --primary-foreground: #ffffff;
   --secondary: #e7ebf0;
   --secondary-foreground: #1c2330;
   --muted: #eaeef2;
   --muted-foreground: #596273;
-  --accent: #fdecea;
-  --accent-foreground: #9f1c12;
+  --accent: #fae8ff;
+  --accent-foreground: #a21caf;
   --destructive: #b42318;
   --border: #d9dfe6;
   --input: #cfd6df;
-  --ring: #d92d20;
+  --ring: #c026d3;
   --tungsten: #e8a317;
   --radius: 0.5rem;
 }
@@ -38,18 +38,18 @@
   --card-foreground: #eef1f5;
   --popover: #161c26;
   --popover-foreground: #eef1f5;
-  --primary: #ef4a3c;
+  --primary: #d946ef;
   --primary-foreground: #ffffff;
   --secondary: #1f2733;
   --secondary-foreground: #eef1f5;
   --muted: #1b222d;
   --muted-foreground: #98a2b3;
-  --accent: #34191a;
-  --accent-foreground: #ffb4ad;
+  --accent: #341a36;
+  --accent-foreground: #f0abfc;
   --destructive: #f97066;
   --border: #283142;
   --input: #2f3a4d;
-  --ring: #ef4a3c;
+  --ring: #d946ef;
   --tungsten: #f5b73b;
 }
 
