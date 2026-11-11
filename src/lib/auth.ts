@@ -1,22 +1,30 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
+import { jwt } from "better-auth/plugins";
 
 // Re-use one Mongo connection across hot reloads in dev.
-const g = globalThis as unknown as { _mongo?: MongoClient };
-const client = (g._mongo ??= new MongoClient(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017"));
-const db = client.db(process.env.DB_NAME || "studiospace");
+
+const client = new MongoClient(process.env.MONGODB_URI as string);
+const db = client.db('studiospace');
 
 export const auth = betterAuth({
-  database: mongodbAdapter(db),
-  secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  database: mongodbAdapter(db, {
+    client,
+  }),
   emailAndPassword: {
     enabled: true,
-    minPasswordLength: 6,
-    autoSignIn: false, // after registering, users are sent to the Login page
   },
   socialProviders: process.env.GOOGLE_CLIENT_ID
     ? { google: { clientId: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET as string } }
     : {},
+    plugins: [
+    jwt(),
+  ],
+  session: {
+    // NOTE: `cookieCache` must stay OFF in this better-auth version: enabling
+    // it stops the `session_token` cookie from being issued on sign-in while
+    // the session route still requires it — auth breaks for fresh logins.
+    // JWT *access tokens* come from the `jwt()` plugin above.
+  }
 });
