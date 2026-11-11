@@ -96,4 +96,15 @@
 
 @keyframes tally { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
 .tally-dot { animation: tally 1.6s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .tally-dot { animation: none; } html { scroll-behavior: auto; } }
+
+/* Scroll-reveal: elements start hidden and rise in once they enter the viewport.
+   .reveal.is-visible is toggled by IntersectionObserver (section-blocks.tsx). */
+@keyframes rise-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+.reveal { opacity: 0; }
+.reveal.is-visible { animation: rise-in .65s cubic-bezier(.22, .61, .36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tally-dot { animation: none; }
+  .reveal { opacity: 1; animation: none !important; }
+  html { scroll-behavior: auto; }
+}
