@@ -16,18 +16,16 @@ export const auth = betterAuth({
     enabled: true,
   },
   socialProviders: {
-        google: { 
-            clientId: process.env.GOOGLE_CLIENT_ID as string, 
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
-        }, 
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
+  },
   plugins: [
     jwt(),
   ],
   session: {
-    // NOTE: `cookieCache` must stay OFF in this better-auth version: enabling
-    // it stops the `session_token` cookie from being issued on sign-in while
-    // the session route still requires it — auth breaks for fresh logins.
-    // JWT *access tokens* come from the `jwt()` plugin above.
+    
+    }
   }
 });

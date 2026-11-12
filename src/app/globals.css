@@ -106,14 +106,22 @@
 .tally-dot { animation: tally 1.6s ease-in-out infinite; }
 
 /* Scroll-reveal: elements start hidden and rise in once they enter the viewport.
-   .reveal.is-visible is toggled by IntersectionObserver (section-blocks.tsx). */
+   .reveal.is-visible is toggled by IntersectionObserver (section-blocks.tsx, about-showcase.tsx). */
 @keyframes rise-in { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
 .reveal { opacity: 0; }
 .reveal.is-visible { animation: rise-in .65s cubic-bezier(.22, .61, .36, 1) both; }
 
+/* About page — floating glass chips and pulsing glow blobs */
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.about-float { animation: float-y 5.5s ease-in-out infinite; }
+.about-float-delay { animation-delay: -2.75s; }
+@keyframes blob-pulse { 0%, 100% { opacity: .6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+.about-blob { animation: blob-pulse 8s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   .tally-dot { animation: none; }
   .reveal { opacity: 1; animation: none !important; }
+  .about-float, .about-blob { animation: none; }
   .hero-swiper .hero-ken-burns { transform: none; animation: none !important; }
   .hero-copy > * { opacity: 1; animation: none !important; }
   html { scroll-behavior: auto; }

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
-import { XIcon } from "@/components/icons";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, XIcon } from "@/components/icons";
 import { categoryPlural, CATEGORIES } from "@/lib/constants";
 
 export function Footer() {
@@ -26,12 +26,22 @@ export function Footer() {
         <div className="space-y-4">
           <Logo variant="footer" />
           <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
-            Our mission is to put every creator within an hour of the right room, from cyc walls to vocal booths, with transparent prices and instant booking.
+            StudioSpace is where idle rooms become working studios — cyc walls, vocal booths, sound stages and design suites,
+            all bookable by the hour at prices you see before you commit.
           </p>
-          <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="StudioSpace on X"
-            className="inline-grid size-9 place-items-center rounded-md border transition-colors hover:bg-accent hover:text-accent-foreground">
-            <XIcon className="size-4" />
-          </a>
+          <div className="flex gap-2">
+            {[
+              { href: "https://x.com", label: "StudioSpace on X", Icon: XIcon },
+              { href: "https://facebook.com", label: "StudioSpace on Facebook", Icon: FacebookIcon },
+              { href: "https://instagram.com", label: "StudioSpace on Instagram", Icon: InstagramIcon },
+              { href: "https://linkedin.com", label: "StudioSpace on LinkedIn", Icon: LinkedinIcon },
+            ].map(({ href, label, Icon }) => (
+              <a key={href} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label}
+                className="grid size-9 place-items-center rounded-full border text-muted-foreground transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-primary-foreground">
+                <Icon className="size-4" />
+              </a>
+            ))}
+          </div>
         </div>
 
         <div>
