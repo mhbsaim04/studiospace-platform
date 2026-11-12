@@ -141,7 +141,7 @@ export function AboutShowcase() {
           <Reveal delay={90}>
             <h1 className="mt-3 text-4xl font-extrabold leading-[1.08] sm:text-5xl">
               Every creator is{" "}
-              <span className="bg-gradient-to-r from-primary to-tungsten bg-clip-text text-transparent">one great room</span>{" "}
+              <span className="bg-linear-to-r from-primary to-tungsten bg-clip-text text-transparent">one great room</span>{" "}
               away.
             </h1>
           </Reveal>

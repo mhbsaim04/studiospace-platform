@@ -1,10 +1,10 @@
-# 🎬 StudioSpace — Creative Studio Sharing Platform
+# StudioSpace — Creative Studio Sharing Platform's Full-stack Website
 
 **StudioSpace** is a peer-to-peer marketplace that turns idle creative spaces into working studios. Hosts list their rooms (photo studios, sound stages, podcast lounges, design suites, workshops), set their own rates and approve every booking request — while creators discover spaces, check live availability and book the exact hours they need, with transparent pricing on every listing.
 
-> 🔗 **Live site:** `https://YOUR-DEPLOYED-URL-HERE` <!-- TODO: replace with the deployed frontend URL -->
+> 🔗 **Live site:** `https://studiospace-marketplace-steel.vercel.app/` 
 
-> ⚠️ **Before submitting:** replace the live URL above and the examiner credentials below with real values (the account must actually exist in the database).
+
 
 ## ✨ Features
 
@@ -36,63 +36,9 @@
 - A MongoDB Atlas connection string (free tier works)
 - Google OAuth credentials (optional — email/password sign-in works without them)
 
-### 1. Run the backend API (port 7000)
 
-```bash
-cd ../studiospace-backend-server
-npm install
-```
 
-Create a `.env` file:
 
-```env
-MONGODB_URI=your-mongodb-atlas-connection-string
-CLIENT_URL=http://localhost:3000
-BETTER_AUTH_SECRET=any-long-random-string
-```
-
-Start the server:
-
-```bash
-node index.js
-# Server is running at 7000 — health check: http://localhost:7000/api/health
-```
-
-### 2. Run the frontend (port 3000)
-
-```bash
-cd ../studiospace-frontend
-npm install
-```
-
-Create a `.env` file:
-
-```env
-MONGODB_URI=your-mongodb-atlas-connection-string
-BETTER_AUTH_SECRET=any-long-random-string   # must match the backend value
-BETTER_AUTH_URL=http://localhost:3000
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-API_URL=http://localhost:7000               # the Express API the /server/* proxy talks to
-NEXT_PUBLIC_IMGBB_KEY=your-imgbb-api-key    # enables image uploads in the studio form
-```
-
-> For Google sign-in, set the authorized redirect URI in your Google Cloud console to
-> `http://localhost:3000/api/auth/callback/google`.
-
-Start the dev server:
-
-```bash
-npm run dev
-# Open http://localhost:3000
-```
-
-### 3. Production build
-
-```bash
-npm run build   # typecheck + production build
-npm start       # serve the production build
-```
 
 ## 🧪 Examiner Test Credentials
 
@@ -100,8 +46,8 @@ Use this pre-registered account to explore the platform as a regular user (book 
 
 | | |
 |---|---|
-| **Email** | `examiner@studiospace.com` <!-- TODO: replace with real demo account --> |
-| **Password** | `Examiner@123` <!-- TODO: replace with the real password --> |
+| **Email** | `examiner@studiospace.com`|
+| **Password** | `Examiner@123`|
 
 > These credentials are placeholders — update them to match a real registered account, or register a fresh account at `/register` and document those credentials here.
 
