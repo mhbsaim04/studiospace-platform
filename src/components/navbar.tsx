@@ -9,7 +9,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useAuth } from "@/components/auth-provider";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
@@ -54,7 +53,6 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-1.5">
-          <ThemeToggle />
           {loading ? (
             <div className="size-9 animate-pulse rounded-full bg-muted" />
           ) : user ? (
