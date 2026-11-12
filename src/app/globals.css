@@ -89,9 +89,16 @@
   :focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
 }
 
-/* Hero slider */
-.hero-swiper .swiper-pagination-bullet { background: #fff; opacity: .5; width: 28px; height: 4px; border-radius: 2px; }
-.hero-swiper .swiper-pagination-bullet-active { background: var(--primary); opacity: 1; }
+/* Hero slider — cinematic zoom + staggered copy (slides move vertically; nav is the bottom strip) */
+.hero-swiper .hero-ken-burns { transform: scale(1.12); }
+.hero-swiper .swiper-slide-active .hero-ken-burns { animation: hero-zoom 7s cubic-bezier(.25, .46, .45, .94) both; }
+@keyframes hero-zoom { from { transform: scale(1.12); } to { transform: scale(1); } }
+
+.hero-copy > * { opacity: 0; }
+.hero-swiper .swiper-slide-active .hero-copy > * { animation: hero-rise .7s ease-out both; }
+.hero-swiper .swiper-slide-active .hero-copy > *:nth-child(2) { animation-delay: .18s; }
+.hero-swiper .swiper-slide-active .hero-copy > *:nth-child(3) { animation-delay: .36s; }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
 .gallery-swiper .swiper-pagination-bullet-active { background: var(--primary); }
 
 @keyframes tally { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
@@ -106,5 +113,7 @@
 @media (prefers-reduced-motion: reduce) {
   .tally-dot { animation: none; }
   .reveal { opacity: 1; animation: none !important; }
+  .hero-swiper .hero-ken-burns { transform: none; animation: none !important; }
+  .hero-copy > * { opacity: 1; animation: none !important; }
   html { scroll-behavior: auto; }
 }
