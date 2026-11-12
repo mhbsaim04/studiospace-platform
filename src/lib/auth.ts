@@ -29,7 +29,6 @@ export const auth = betterAuth({
       enabled: true,
       strategy: 'jwt',
       maxAge: 1 * 24 * 60 * 60
-
     }
   }
 });
