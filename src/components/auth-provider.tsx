@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { api, errMsg } from "@/lib/api";
-import { TOKEN_ROUTE } from "@/lib/constants";
 import type { Studio } from "@/lib/types";
 
 interface AuthUser { id: string; name: string; email: string; image?: string | null }
@@ -27,36 +26,29 @@ export function useAuth() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
-  const [synced, setSynced] = useState(false);
-  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+  // Wishlist state per user id. A user absent from the map = still loading, which is what
+  // `loading` derives from — no synchronous setState needed in the effect below.
+  const [wishlists, setWishlists] = useState<Record<string, string[]>>({});
   const userId = session?.user?.id;
+  const loading = isPending || (!!userId && !(userId in wishlists));
 
-  // Whenever the Better Auth session changes, refresh the HTTPOnly JWT cookie used by the Express API.
-  // `loading` stays true until that is done, so reloading a private route never bounces to /login.
+  // All API calls carry the Better Auth session cookies same-origin, which is what the
+  // Express API authenticates with. Fetch the user's wishlist once per session.
   useEffect(() => {
-    if (isPending) return;
+    if (!userId || userId in wishlists) return;
     let cancelled = false;
-    if (!userId) {
-      setWishlistIds([]);
-      setSynced(true);
-      fetch(TOKEN_ROUTE, { method: "DELETE" }).catch(() => {});
-      return;
-    }
-    setSynced(false);
-    fetch(TOKEN_ROUTE, { cache: "no-store" })
-      .then(() => api<Studio[]>("/wishlist"))
-      .then((items) => !cancelled && setWishlistIds(items.map((s) => s._id)))
-      .catch(() => {})
-      .finally(() => !cancelled && setSynced(true));
+    api<Studio[]>("/wishlist")
+      .then((items) => !cancelled && setWishlists((w) => ({ ...w, [userId]: items.map((s) => s._id) })))
+      .catch(() => !cancelled && setWishlists((w) => ({ ...w, [userId]: [] })));
     return () => { cancelled = true; };
-  }, [isPending, userId]);
+  }, [userId, wishlists]);
 
   const logout = useCallback(async () => {
-    await fetch(TOKEN_ROUTE, { method: "DELETE" }).catch(() => {});
+    if (userId) setWishlists((w) => { const rest = { ...w }; delete rest[userId]; return rest; });
     await authClient.signOut();
     toast.success("You have been logged out.");
     router.push("/");
-  }, [router]);
+  }, [userId, router]);
 
   const toggleWishlist = useCallback(async (studioId: string) => {
     if (!userId) {
@@ -66,7 +58,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     try {
       const { saved } = await api<{ saved: boolean }>(`/wishlist/${studioId}`, { method: "POST" });
-      setWishlistIds((ids) => (saved ? [...ids, studioId] : ids.filter((id) => id !== studioId)));
+      setWishlists((w) => ({
+        ...w,
+        [userId]: saved ? [...(w[userId] ?? []), studioId] : (w[userId] ?? []).filter((id) => id !== studioId),
+      }));
       toast.success(saved ? "Saved to your wishlist." : "Removed from your wishlist.");
     } catch (e) {
       toast.error(errMsg(e));
@@ -74,8 +69,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [userId, router]);
 
   const value = useMemo<AuthCtx>(
-    () => ({ user: session?.user ?? null, loading: isPending || (!!userId && !synced), logout, wishlistIds, toggleWishlist }),
-    [session, isPending, userId, synced, logout, wishlistIds, toggleWishlist]
+    () => ({
+      user: session?.user ?? null,
+      loading,
+      logout,
+      wishlistIds: (userId && wishlists[userId]) || [],
+      toggleWishlist,
+    }),
+    [session, loading, logout, userId, wishlists, toggleWishlist]
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

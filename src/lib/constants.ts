@@ -34,4 +34,3 @@ export const AMENITY_PRESETS = [
   "Soundproofing", "Acoustic panels", "Coffee", "Changing room", "Power outlets",
 ];
 
-export const TOKEN_ROUTE = "/api/token";
