@@ -2,7 +2,7 @@
 
 **StudioSpace** is a peer-to-peer marketplace that turns idle creative spaces into working studios. Hosts list their rooms (photo studios, sound stages, podcast lounges, design suites, workshops), set their own rates and approve every booking request — while creators discover spaces, check live availability and book the exact hours they need, with transparent pricing on every listing.
 
-> 🔗 **Live site:** `https://studiospace-marketplace-steel.vercel.app/` 
+> 🔗 **Live site:** `https://studiospace-marketplace-7r7l0juj2.vercel.app/` 
 
 
 
@@ -49,7 +49,7 @@ Use this pre-registered account to explore the platform as a regular user (book 
 | **Email** | `examiner@studiospace.com`|
 | **Password** | `Examiner@123`|
 
-> These credentials are placeholders — update them to match a real registered account, or register a fresh account at `/register` and document those credentials here.
+
 
 ## 📄 License
 
