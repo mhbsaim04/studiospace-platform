@@ -95,9 +95,9 @@ export function BookingStepsSection() {
   );
 }
 
-/** Section 2 — Host guarantee & creator support. Assurance cards with staggered
- *  reveal, lift-on-hover and a playful icon pop. */
-export function AssurancesSection() {
+/** Section 2 (shared by home + how-it-works): platform assurances.
+ *  `hostCta` shows the "Add New Studio" call-to-action — used on the how-it-works page. */
+export function AssurancesSection({ hostCta = false }: { hostCta?: boolean }) {
   const { ref, inView } = useInView<HTMLDivElement>();
   return (
     <div>
@@ -122,6 +122,12 @@ export function AssurancesSection() {
           </div>
         ))}
       </div>
+      {hostCta && (
+        <p className="mt-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Ready to earn from your space? Click the{" "}
+          <span className="font-semibold text-primary">Add New Studio</span> button in your account menu to list it in minutes.
+        </p>
+      )}
     </div>
   );
 }

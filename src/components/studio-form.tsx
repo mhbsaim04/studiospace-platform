@@ -32,11 +32,12 @@ export function StudioForm({ studio }: { studio?: Studio }) {
     maxCapacity: String(studio?.maxCapacity ?? ""),
     location: studio?.location ?? "",
     image: studio?.image ?? "",
-    gallery: (studio?.gallery ?? []).filter((g) => g !== studio?.image).join("\n"),
+    gallery: [0, 1, 2].map((i) => (studio?.gallery ?? []).filter((g) => g !== studio?.image)[i] ?? ""),
     overview: studio?.overview ?? "",
   });
   const [amenities, setAmenities] = useState<string[]>(studio?.amenities ?? []);
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setF((p) => ({ ...p, [k]: e.target.value }));
+  const setGalleryUrl = (i: number) => (e: React.ChangeEvent<HTMLInputElement>) => setF((p) => ({ ...p, gallery: p.gallery.map((v, j) => (j === i ? e.target.value : v)) }));
   const toggle = (a: string) => setAmenities((l) => (l.includes(a) ? l.filter((x) => x !== a) : [...l, a]));
   const allAmenities = [...new Set([...AMENITY_PRESETS, ...amenities])];
 
@@ -70,7 +71,7 @@ export function StudioForm({ studio }: { studio?: Studio }) {
       hourlyRate: Number(f.hourlyRate),
       securityDeposit: Number(f.securityDeposit),
       maxCapacity: Number(f.maxCapacity),
-      gallery: [f.image, ...f.gallery.split("\n").map((s) => s.trim()).filter(Boolean)],
+      gallery: [f.image, ...f.gallery.map((s) => s.trim()).filter(Boolean)],
       amenities,
     };
     try {
@@ -113,7 +114,15 @@ export function StudioForm({ studio }: { studio?: Studio }) {
               </div>
               <p className="mt-1.5 text-xs text-muted-foreground">Upload a file to imgbb or paste any public image link.</p>
             </div>
-            <div><Label htmlFor="gallery">Extra gallery image URLs (one per line, optional)</Label><Textarea id="gallery" value={f.gallery} onChange={set("gallery")} className="min-h-20" placeholder="https://..." /></div>
+            {[0, 1, 2].map((i) => (
+              <div key={i}>
+                <Label htmlFor={`gallery-${i}`}>Extra gallery image URL {i + 1} (optional)</Label>
+                <Input id={`gallery-${i}`} type="url" value={f.gallery[i]} onChange={setGalleryUrl(i)} placeholder="https://..." />
+              </div>
+            ))}
+            <div className="grid grid-cols-3 gap-2">
+              {f.gallery.map((url, i) => <SafeImage key={i} src={url} alt={`Gallery preview ${i + 1}`} className="aspect-[4/3] w-full rounded-md border" />)}
+            </div>
           </div>
           <SafeImage src={f.image} alt="Cover preview" className="aspect-[4/3] w-full rounded-lg border" />
         </div>

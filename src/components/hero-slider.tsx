@@ -28,7 +28,7 @@ export function HeroSlider() {
           <SwiperSlide key={s.title}>
             <div className="relative h-[560px] sm:h-[640px]">
               <SafeImage src={s.image} alt={s.title} className="absolute inset-0 size-full" />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/10" />
+              <div className="absolute inset-0 bg-linear-to-r from-black/85 via-black/55 to-black/10" />
               {/* Viewfinder frame */}
               <div className="pointer-events-none absolute inset-5 sm:inset-8" aria-hidden="true">
                 {["left-0 top-0 border-l-2 border-t-2", "right-0 top-0 border-r-2 border-t-2", "bottom-0 left-0 border-b-2 border-l-2", "bottom-0 right-0 border-b-2 border-r-2"].map((c) => (
@@ -45,7 +45,7 @@ export function HeroSlider() {
                   <div className="mt-8 flex flex-wrap gap-3">
                     <Button size="lg" asChild><Link href="/studios">Explore Studios</Link></Button>
                     <Button size="lg" variant="outline" asChild className="border-white/40 bg-white/10 text-white hover:bg-white hover:text-black">
-                      <Link href="/studios">Host Your Space</Link>
+                      <Link href="/add-studio">Host Your Space</Link>
                     </Button>
                   </div>
                 </div>

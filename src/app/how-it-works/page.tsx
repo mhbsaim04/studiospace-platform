@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
 
       {/* Section 2: Host Guarantee & Creator Support */}
       <section className="mt-20">
-        <AssurancesSection />
+        <AssurancesSection hostCta />
       </section>
 
       <div className="mt-10 flex flex-wrap gap-3">
