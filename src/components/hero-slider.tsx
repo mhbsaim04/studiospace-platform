@@ -5,12 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "@/components/ui/button";
 import { SafeImage } from "@/components/safe-image";
 
-const u = (id: string) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=2000&q=80`;
-
 const SLIDES = [
-  { image: u("1598488035139-bdbb2231ce04"), take: "Take 1", title: "Find the room your next shoot deserves", text: "Cyc walls, daylight lofts and strobe-ready sets, bookable by the hour from hosts who know their light." },
-  { image: u("1519892300165-cb5542fb47c7"), take: "Take 2", title: "Record, stream and mix in treated rooms", text: "Podcast lounges, vocal booths and full tracking suites with the gear already on the stand." },
-  { image: u("1485846234645-a62644f84728"), take: "Take 3", title: "Turn your empty studio into steady income", text: "List your space in minutes, set your own rate and approve every booking request yourself." },
+  { image: "/heroslider-images/heroslider_1.jpg", take: "Take 1", title: "Plan it. Book it. Shoot it.", text: "From storyboard to call sheet — shortlist the right room, lock your hours and get back to the creative work." },
+  { image: "/heroslider-images/heroslider_2.jpg", take: "Take 2", title: "Sound stages built for serious productions", text: "Blackout stages, lighting grids and green screens, bookable by the hour with live availability before you commit." },
+  { image: "/heroslider-images/heroslider_3.jpg", take: "Take 3", title: "Record, stream and mix in treated rooms", text: "Podcast lounges, vocal booths and full tracking suites with the gear already on the stand." },
+  { image: "/heroslider-images/heroslider_4.jpg", take: "Take 4", title: "Find the room your next shoot deserves", text: "Cyc walls, daylight lofts and strobe-ready sets, bookable by the hour from hosts who know their light." },
 ];
 
 export function HeroSlider() {
