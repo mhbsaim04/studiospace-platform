@@ -2,7 +2,7 @@
 
 **StudioSpace** is a peer-to-peer marketplace that turns idle creative spaces into working studios. Hosts list their rooms (photo studios, sound stages, podcast lounges, design suites, workshops), set their own rates and approve every booking request — while creators discover spaces, check live availability and book the exact hours they need, with transparent pricing on every listing.
 
-> 🔗 **Live site:** `https://studiospace-marketplace-7r7l0juj2.vercel.app/` 
+> 🔗 **Live site:** `https://studiospace-marketplace-steel.vercel.app` 
 
 
 
