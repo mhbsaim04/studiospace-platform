@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useAuth } from "@/components/auth-provider";
 import { Container } from "@/components/container";
 import { Logo } from "@/components/logo";
+import { UpdatePhotoDialog } from "@/components/update-photo-dialog";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
@@ -76,6 +77,7 @@ export function Navbar() {
                     <Link href={m.href}><m.icon /> {m.label}</Link>
                   </DropdownMenuItem>
                 ))}
+                <UpdatePhotoDialog />
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={() => logout()} className="text-destructive focus:text-destructive">
                   <LogOut /> Logout

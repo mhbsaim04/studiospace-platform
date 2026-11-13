@@ -51,6 +51,4 @@ Use this pre-registered account to explore the platform as a regular user (book 
 
 
 
-## 📄 License
 
-Built as an educational project — free to use and adapt.

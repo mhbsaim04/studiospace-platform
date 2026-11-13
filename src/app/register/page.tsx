@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Eye, EyeOff, Handshake, Rocket, Users } from "lucide-react";
+import { Eye, EyeOff, Handshake, ImagePlus, Rocket, Users } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AuthLink, OrDivider } from "@/components/auth-shell";
 import { GoogleButton } from "@/components/google-button";
 import { SafeImage } from "@/components/safe-image";
@@ -12,9 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { errMsg } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 
 const POSTER = "/StudioSpace%20Creative%20Studio%20Poster.png";
+
+/** Google Drive share links return an HTML page, not image bytes — rewrite them to Drive's direct-render thumbnail URL. */
+function normalizeImageUrl(url: string): string {
+  const trimmed = url.trim();
+  const drive = /drive\.google\.com\/file\/d\/([^/]+)/.exec(trimmed);
+  return drive ? `https://drive.google.com/thumbnail?id=${drive[1]}&sz=w400` : trimmed;
+}
 
 function validatePassword(pw: string): string {
   if (!/[A-Z]/.test(pw)) return "Password must include an uppercase letter.";
@@ -96,10 +105,34 @@ export default function RegisterPage() {
   const [pwError, setPwError] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((f) => ({ ...f, [k]: e.target.value }));
     if (k === "password") setPwError(e.target.value ? validatePassword(e.target.value) : "");
   };
+
+  /** Uploads a picked file straight from the device to imgbb and fills the photo field with its URL. */
+  async function upload(file?: File) {
+    if (!file) return;
+    const key = process.env.NEXT_PUBLIC_IMGBB_KEY;
+    if (!key) return toast.error("Image upload isn't configured yet. Please paste an image URL instead.");
+    if (file.size > 8 * 1024 * 1024) return toast.error("Image must be smaller than 8 MB.");
+    setUploading(true);
+    try {
+      const body = new FormData();
+      body.append("image", file);
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${key}`, { method: "POST", body });
+      const json = await res.json();
+      if (!json?.success) throw new Error(json?.error?.message || "Upload failed. Please try again.");
+      setForm((f) => ({ ...f, image: json.data.display_url }));
+      toast.success("Photo uploaded from your device.");
+    } catch (e) {
+      toast.error(errMsg(e));
+    } finally {
+      setUploading(false);
+    }
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -109,7 +142,7 @@ export default function RegisterPage() {
     if (form.image && !/^https?:\/\/\S+$/i.test(form.image)) return toast.error("Photo URL must start with http:// or https://");
 
     setBusy(true);
-    const { error } = await authClient.signUp.email({ name: form.name.trim(), email: form.email.trim(), password: form.password, image: form.image.trim() || undefined });
+    const { error } = await authClient.signUp.email({ name: form.name.trim(), email: form.email.trim(), password: form.password, image: normalizeImageUrl(form.image) || undefined });
     setBusy(false);
     if (error) return toast.error(error.message || "We couldn't create your account. Try a different email.");
     toast.success("Account created. Please log in to continue.");
@@ -152,8 +185,21 @@ export default function RegisterPage() {
                 <Input id="email" type="email" required value={form.email} onChange={set("email")} placeholder="you@example.com" autoComplete="email" />
               </div>
               <div>
-                <Label htmlFor="image">Photo URL <span className="font-normal text-muted-foreground">(optional)</span></Label>
-                <Input id="image" type="url" value={form.image} onChange={set("image")} placeholder="https://..." />
+                <Label htmlFor="image">Profile photo <span className="font-normal text-muted-foreground">(optional)</span></Label>
+                <div className="mt-1.5 flex items-center gap-2.5">
+                  <Avatar className="size-11 shrink-0 ring-1 ring-border">
+                    {form.image.trim() && <AvatarImage src={normalizeImageUrl(form.image)} alt="Photo preview" referrerPolicy="no-referrer" />}
+                    <AvatarFallback>{form.name?.[0]?.toUpperCase() ?? "S"}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <Input id="image" type="url" value={form.image} onChange={set("image")} placeholder="Paste a link or upload from your device" />
+                  </div>
+                  <Button type="button" variant="outline" className="shrink-0" disabled={uploading} onClick={() => fileRef.current?.click()} aria-label="Upload a photo from your device">
+                    {uploading ? <Spinner /> : <ImagePlus />} {uploading ? "Uploading…" : "Upload"}
+                  </Button>
+                  <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => { upload(e.target.files?.[0]); e.target.value = ""; }} />
+                </div>
+                <p className="mt-1.5 text-xs text-muted-foreground">Upload a photo from your device or paste any public image link (Drive links are converted automatically).</p>
               </div>
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
